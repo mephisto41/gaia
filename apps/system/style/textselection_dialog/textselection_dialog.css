@@ -1,31 +1,25 @@
-#text-selection-dialog-root {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-}
-
-#text-selection-dialog-root > .textselection-dialog {
+.textselection-dialog {
   display: none;
-  height: 5.2rem;
-  width: auto;
+  height: 5.2rem !important;
+  width: auto !important;
   position: absolute;
   background-color: #606b6e;
   box-shadow: 0.1rem 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
   border-radius: 0.2rem;
   opacity: 0;
   transition: opacity 0.3s ease;
+  z-index: 2043;
 }
 
-#text-selection-dialog-root > .textselection-dialog.visible {
+.textselection-dialog.visible {
   opacity: 1;
 }
 
-#text-selection-dialog-root > .textselection-dialog.active {
+.textselection-dialog.active {
   display: block;
 }
 
-#text-selection-dialog-root > .textselection-dialog div {
+.textselection-dialog div {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 3rem;
@@ -34,16 +28,16 @@
   display: inline-block;
 }
 
-#text-selection-dialog-root > .textselection-dialog div.hidden {
+.textselection-dialog div.hidden {
   display: none;
 }
 
-#text-selection-dialog-root > .textselection-dialog div:active {
+.textselection-dialog div:active {
   background-color: #4e595c;
   border-radius: 0.2rem;
 }
 
-#text-selection-dialog-root > .textselection-dialog div:after {
+.textselection-dialog div:after {
   content: '';
   background-color: #525b5e;
   width: 0.1rem;
@@ -52,27 +46,27 @@
   display: none;
 }
 
-#text-selection-dialog-root > .textselection-dialog > div:not(.last-option):after {
+.textselection-dialog > div:not(.last-option):after {
   display: block;
 }
 
-#text-selection-dialog-root > .textselection-dialog div:active:after,
-#text-selection-dialog-root > .textselection-dialog div:active + div:after{
+.textselection-dialog div:active:after,
+.textselection-dialog div:active + div:after{
   display: none;
 }
 
-#text-selection-dialog-root .textselection-dialog-copy {
+.textselection-dialog .textselection-dialog-copy {
   background-image: url('images/textselection_copy.png');
 }
 
-#text-selection-dialog-root .textselection-dialog-cut {
+.textselection-dialog .textselection-dialog-cut {
   background-image: url('images/textselection_cut.png');
 }
 
-#text-selection-dialog-root .textselection-dialog-paste {
+.textselection-dialog .textselection-dialog-paste {
   background-image: url('images/textselection_paste.png');
 }
 
-#text-selection-dialog-root .textselection-dialog-selectall{
+.textselection-dialog .textselection-dialog-selectall{
   background-image: url('images/textselection_select_all.png');
 }
