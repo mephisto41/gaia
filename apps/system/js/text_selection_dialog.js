@@ -93,10 +93,10 @@
   };
 
   TextSelectionDialog.prototype.debug = function tsd_debug(msg) {
-    if (DEBUG || this._DEBUG) {
-      console.log('[Dump: ' + this.ID_NAME + ']' +
+    // if (DEBUG || this._DEBUG) {
+      dump('[Dump: ' + this.ID_NAME + ']' +
         JSON.stringify(msg));
-    }
+    // }
   };
 
   TextSelectionDialog.prototype.handleEvent = function tsd_handleEvent(evt) {
@@ -116,6 +116,9 @@
         switch (evt.detail.type) {
           case 'selectionstatechanged':
             if (this._ignoreSelectionChange) {
+              this.debug('on receive selection change event =========');
+              this.debug(JSON.stringify(detail));
+              this.debug('on receive selection change event =========');
               return;
             }
             evt.preventDefault();

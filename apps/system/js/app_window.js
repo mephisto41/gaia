@@ -809,7 +809,8 @@
     'authDialog': window.AppAuthenticationDialog,
     'contextmenu': window.BrowserContextMenu,
     'childWindowFactory': window.ChildWindowFactory,
-    'statusbar': window.AppStatusbar
+    'statusbar': window.AppStatusbar,
+    'textSelectionDialogRefactor': window.TextSelectionDialogRefactor,
   };
 
   AppWindow.prototype.openAnimation = 'enlarge';

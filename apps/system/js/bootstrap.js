@@ -81,6 +81,7 @@ window.addEventListener('load', function startup() {
 
     /** @global */
     window.textSelectionDialog = new TextSelectionDialog();
+    window.textSelectionDialogRefactor = new TextSelectionDialogRefactor();
   }
 
   function safelyLaunchFTU() {
