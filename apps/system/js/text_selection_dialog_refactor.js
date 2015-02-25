@@ -9,6 +9,7 @@
 
   var TextSelectionDialogRefactor = function (app) {
     this.app = app;
+    this._shortcutTimeout = null;
     if (app) {
       this.containerElement = app.element;
       this.app.element.addEventListener('mozbrowsercaretstatechanged',
@@ -65,43 +66,58 @@
   TextSelectionDialogRefactor.prototype.handleEvent = function tsd_handleEvent(evt) {
     switch (evt.type) {
       case 'mozbrowsercaretstatechanged':
-        var detail = evt.detail;
+        evt.preventDefault();
+        evt.stopPropagation();
+        this._handleCaretStateChanged(evt.detail);
+        break;
+      case 'mozChromeEvent':
+        if (evt.detail.type === 'caretstatechanged') {
+          evt.preventDefault();
+          evt.stopPropagation();
+          this._handleCaretStateChanged(evt.detail.detail);
+        }
+        break;
+    }
+  };
+
+  TextSelectionDialogRefactor.prototype._handleCaretStateChanged =
+    function tsd__handleCaretStateChanged(detail) {
         dump("Morris gaia got caret state changed " +
              " instance:" + this.instanceID +
              " top:" + detail.rect.top +
              " bottom:" + detail.rect.bottom +
              " left:" + detail.rect.left +
              " right:" + detail.rect.right +
+             " collapsed:" + detail.collapsed +
              "\n");
-        evt.stopPropagation();
         if (!this._injected) {
           this.render();
         }
         this._injected = true;
-        this.show(detail);
-        break;
-      case 'mozChromeEvent':
-        switch (evt.detail.type) {
-          case 'caretstatechanged':
-          var detail = evt.detail.detail;
-          dump("Morris gaia got caret state changed " +
-               " instance:" + this.instanceID +
-               " top:" + detail.rect.top +
-               " bottom:" + detail.rect.bottom +
-               " left:" + detail.rect.left +
-               " right:" + detail.rect.right +
-               "\n");
-          evt.stopPropagation();
-          if (!this._injected) {
-            this.render();
+        if (detail.state !== 'visible') {
+          this.hide();
+        } else {
+          if (detail.collapsed === true) {
+            detail.commands.canSelectAll = false;
+            this._triggerShortcutTimeout();
           }
-          this._injected = true;
           this.show(detail);
-          break;
         }
-        break;
-    }
-  };
+    };
+
+  TextSelectionDialogRefactor.prototype._resetShortcutTimeout =
+    function tsd__resetShortcutTimeout() {
+      window.clearTimeout(this._shortcutTimeout);
+      this._shortcutTimeout = null;
+    };
+
+  TextSelectionDialogRefactor.prototype._triggerShortcutTimeout =
+    function tsd__triggerShortcutTimeout() {
+      this._resetShortcutTimeout();
+      this._shortcutTimeout = window.setTimeout(function() {
+        this.close();
+      }.bind(this), this.SHORTCUT_TIMEOUT);
+    };
 
   TextSelectionDialogRefactor.prototype._fetchElements = function tsd__fetchElements() {
     this.element = document.getElementById(this.CLASS_NAME + this.instanceID);
