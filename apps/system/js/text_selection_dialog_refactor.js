@@ -89,17 +89,20 @@
              " left:" + detail.rect.left +
              " right:" + detail.rect.right +
              " collapsed:" + detail.collapsed +
+             " selVis:" + detail.selectionVisible +
              "\n");
         if (!this._injected) {
           this.render();
         }
         this._injected = true;
-        if (detail.state !== 'visible') {
+        if (!detail.selectionVisible) {
           this.hide();
         } else {
           if (detail.collapsed === true) {
             detail.commands.canSelectAll = false;
             this._triggerShortcutTimeout();
+          } else {
+            this._resetShortcutTimeout();
           }
           this.show(detail);
         }
