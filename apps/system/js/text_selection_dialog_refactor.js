@@ -90,22 +90,54 @@
              " right:" + detail.rect.right +
              " collapsed:" + detail.collapsed +
              " selVis:" + detail.selectionVisible +
+             " caretVis:" + detail.caretVisible +
+             " reason:" + detail.reason +
              "\n");
         if (!this._injected) {
           this.render();
+          this._injected = true;
         }
-        this._injected = true;
-        if (!detail.selectionVisible) {
+
+        if (detail.reason === "visibilitychange" && !detail.caretVisibe) {
           this.hide();
-        } else {
-          if (detail.collapsed === true) {
-            detail.commands.canSelectAll = false;
-            this._triggerShortcutTimeout();
-          } else {
-            this._resetShortcutTimeout();
-          }
-          this.show(detail);
+          return;
         }
+
+        if (detail.reason === "presscaret") {
+          this.hide();
+          return;
+        }
+
+        if (!detail.selectionVisible && !detail.caretVisible) {
+          this.hide();
+          return;
+        }
+
+        if (detail.collapsed) {
+          this._onCollapsedMode(detail);
+        } else {
+          this._onSelectionMode(detail);
+        }
+    };
+
+  TextSelectionDialogRefactor.prototype._onCollapsedMode =
+    function tsd__onCollapsedMode(detail) {
+      if (!this._hasCutOrCopied &&
+          detail.reason !== 'taponcaret' &&
+          detail.reason !== 'longpressonemptycontent') {
+        this.hide();
+        return;
+      }
+
+      detail.commands.canSelectAll = false;
+      this._triggerShortcutTimeout();
+      this.show(detail);
+    };
+
+  TextSelectionDialogRefactor.prototype._onSelectionMode =
+    function tsd__onSelectionMode(detail) {
+      this._resetShortcutTimeout();
+      this.show(detail);
     };
 
   TextSelectionDialogRefactor.prototype._resetShortcutTimeout =
@@ -210,7 +242,9 @@
       }
 
       if (this.app) {
-        this.textualmenuDetail.sendDoCommandMsg(cmd);
+        if (this.textualmenuDetail) {
+          this.textualmenuDetail.sendDoCommandMsg(cmd);
+        }
       } else {
         var props = {
           detail: {
@@ -375,6 +409,7 @@
     if (!this.element) {
       return;
     }
+
     this._changeTransitionState('closing');
   };
 
