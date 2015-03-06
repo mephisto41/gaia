@@ -1,0 +1,79 @@
+/* .textselection-dialog-refactor { */
+/*   position: absolute; */
+/*   top: 0; */
+/*   width: 100%; */
+/*   z-index: 10; */
+/* } */
+
+.textselection-dialog-refactor {
+  display: none;
+  height: 5.2rem !important;
+  width: auto !important;
+  position: absolute;
+  background-color: #606b6e;
+  box-shadow: 0.1rem 0.1rem 0.4rem 0 rgba(0, 0, 0, 0.4);
+  border-radius: 0.2rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.textselection-dialog-refactor.visible {
+  opacity: 1;
+}
+
+.textselection-dialog-refactor.active {
+  display: block;
+}
+
+.textselection-dialog-refactor div {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 3rem;
+  height: 5.2rem;
+  width: 5.2rem;
+  display: inline-block;
+}
+
+.textselection-dialog-refactor div.hidden {
+  display: none;
+}
+
+.textselection-dialog-refactor div:active {
+  background-color: #4e595c;
+  border-radius: 0.2rem;
+}
+
+.textselection-dialog-refactor div:after {
+  content: '';
+  background-color: #525b5e;
+  width: 0.1rem;
+  height: 4.4rem;
+  margin-top: 0.4rem;
+  display: none;
+}
+
+.textselection-dialog-refactor > div:not(.last-option):after {
+  display: block;
+}
+
+.textselection-dialog-refactor div:active:after,
+.textselection-dialog-refactor div:active + div:after{
+  display: none;
+}
+
+.textselection-dialog-refactor .textselection-dialog-copy {
+  background-image: url('images/textselection_copy.png');
+}
+
+.textselection-dialog-refactor .textselection-dialog-cut {
+  background-image: url('images/textselection_cut.png');
+}
+
+.textselection-dialog-refactor .textselection-dialog-paste {
+  background-image: url('images/textselection_paste.png');
+}
+
+.textselection-dialog-refactor .textselection-dialog-selectall{
+  background-image: url('images/textselection_select_all.png');
+}
