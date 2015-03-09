@@ -247,7 +247,7 @@
     };
 
   TextSelectionDialogRefactor.prototype._doCommand =
-    function tsd_doCommand(evt, cmd) {
+    function tsd_doCommand(evt, cmd, closed) {
       if (!this._isCommandSendable) {
         return;
       }
@@ -268,34 +268,36 @@
           new CustomEvent('mozContentEvent', props));
       }
 
-      this.close();
+      if (closed) {
+        this.close();
+      }
       evt.preventDefault();
     };
 
   TextSelectionDialogRefactor.prototype.copyHandler =
     function tsd_copyHandler(evt) {
-      this._doCommand(evt, 'copy');
+      this._doCommand(evt, 'copy', true);
       this._resetCutOrCopiedTimer();
       this._hasCutOrCopied = true;
   };
 
   TextSelectionDialogRefactor.prototype.cutHandler =
     function tsd_cutHandler(evt) {
-      this._doCommand(evt, 'cut');
+      this._doCommand(evt, 'cut', true);
       this._resetCutOrCopiedTimer();
       this._hasCutOrCopied = true;
   };
 
   TextSelectionDialogRefactor.prototype.pasteHandler =
     function tsd_pasteHandler(evt) {
-      this._doCommand(evt, 'paste');
+      this._doCommand(evt, 'paste', true);
       this._hasCutOrCopied = false;
       window.clearTimeout(this._resetCutOrCopiedTimeout);
   };
 
   TextSelectionDialogRefactor.prototype.selectallHandler =
     function tsd_selectallHandler(evt) {
-      this._doCommand(evt, 'selectall');
+      this._doCommand(evt, 'selectall', false);
   };
 
   TextSelectionDialogRefactor.prototype.view = function tsd_view() {
