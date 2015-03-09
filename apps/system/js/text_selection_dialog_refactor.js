@@ -122,11 +122,22 @@
 
   TextSelectionDialogRefactor.prototype._onCollapsedMode =
     function tsd__onCollapsedMode(detail) {
-      if (!this._hasCutOrCopied &&
-          detail.reason !== 'taponcaret' &&
-          detail.reason !== 'longpressonemptycontent') {
-        this.hide();
-        return;
+      switch (detail.reason) {
+        case 'taponcaret':
+        case 'longpressonemptycontent':
+          // Always allow
+          break;
+        case 'updateposition':
+          // Only allow when this._hasCutOrCopied is true
+          if (!this._hasCutOrCopied) {
+            this.hide();
+            return;
+          }
+          break;
+        default:
+          // Not allow
+          this.hide();
+          return;
       }
 
       detail.commands.canSelectAll = false;
