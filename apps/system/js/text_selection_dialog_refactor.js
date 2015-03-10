@@ -53,7 +53,7 @@
   TextSelectionDialogRefactor.prototype.DISTANCE_FROM_SELECTEDAREA_TO_MENUTOP = 43;
 
   // Minimum distance between bubble and boundary.
-  TextSelectionDialog.prototype.DISTANCE_FROM_BOUNDARY = 5;
+  TextSelectionDialogRefactor.prototype.DISTANCE_FROM_BOUNDARY = 5;
 
   TextSelectionDialogRefactor.prototype.ID_NAME = 'TextSelectionDialogRefactor';
 
